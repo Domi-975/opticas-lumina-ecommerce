@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProductProvider } from "./context/ProductContext";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Estilos Bootstrap
 
@@ -11,6 +12,7 @@ import Login from 'src/components/Login';
 
 function App() {
   return (
+    <ProductProvider>
     <Router>
       <div className="App">
         {/* Navbar básica para navegación */}
@@ -40,6 +42,7 @@ function App() {
         </div>
       </div>
     </Router>
+    </ProductProvider>
   );
 }
 

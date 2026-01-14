@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "product_name": "Koxis 2301",
+      "product_categories": [
+        {
+          "name": "Central destello",
+          "image": "https://ilusionesoptica.com/wp-content/uploads/2025/02/IMG_4469-300x300.jpg",
+          "price": 60
+        },
+        {
+          "name": "Central flama",
+          "image": "http://ilusionesoptica.com/wp-content/uploads/2024/09/IMG_4432-300x300.jpg",
+          "price": 70
+        },
+        {
+          "name": "Prototype joaquin",
+          "image": "https://ilusionesoptica.com/wp-content/uploads/2023/08/13-IMG_4242-300x300.jpg",
+          "price": 80
+        }
+      ],
+      "product_price": 65,
+      "product_description": "Marca: Koxis\nModelo: 2301\nColor: Negro\nTamaño: 23mm\n \nLorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu congue ante. Duis in purus at dolor varius finibus sed eget enim. Fusce non elit imperdiet erat eleifend mattis. Fusce eleifend venenatis efficitur. Proin malesuada, leo non aliquet viverra, nibh nisl rhoncus massa, nec aliquet magna massa ut velit. Morbi mollis dapibus laoreet. Sed lacinia pretium dui in fermentum. Curabitur elit quam, ornare id lacus sed, eleifend aliquam.",
+      "image": "https://ilusionesoptica.com/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-17-at-11.36.08.jpeg"
+    }
+  ]
+}
