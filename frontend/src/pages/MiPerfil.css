@@ -1,0 +1,108 @@
+.perfil-container {
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 60px;
+    display: grid;
+    background-color: #FEF3E2;
+    border-radius: 15px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08),
+        0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.col-izquierda {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+.layout{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    column-gap: 100px;
+    align-items: start;
+}
+.perfil-container h1 {
+    text-align: left;
+}
+
+.informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.informacion button {
+    background-color: #111F35;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+.informacion button:hover {
+    background-color: #FA812F;
+    transform: translateY(-2px);
+}
+
+.datos-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin-top: 0px;
+    align-self: start;
+
+}
+
+.datos-perfil input {
+border: none;
+border-bottom: 1px solid #FFB22C;
+background-color: #ffff;
+color:#111F35;
+padding: 10px;
+outline:none;
+}
+
+.guardarbtn {
+width:150px;
+padding:10px;
+background-color:#111F35;
+cursor: pointer;
+border: none;
+border-radius: 10px;
+text-align: center;
+}
+
+.guardarbtn:hover{
+    opacity: 0.8;
+    background-color: #FA812F;
+    transform: translateY(-2px);
+}
+
+.img-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0;
+}
+.img-avatar{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    margin-top: 30px;
+}
+.cambiarimagenbtn{
+    background-color:#111F35;
+    margin-top: 10px;
+    border-radius: 10px;
+    cursor:pointer;
+}
+.cambiarimagenbtn:hover{
+    opacity: 0.8;
+    background-color: #FA812F;
+    transform: translateY(-2px);
+}
+.inputfoto{
+    display: none;
+}

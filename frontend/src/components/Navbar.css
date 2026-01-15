@@ -1,0 +1,8 @@
+.menu{
+    text-decoration: none;
+    color: inherit; 
+    }
+  .menuActive{
+    color: #FFB22C;
+    text-decoration: none;
+  }
