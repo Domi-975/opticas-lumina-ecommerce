@@ -1,0 +1,97 @@
+/* frontend/src/pages/home.css */
+
+.lumina-hero {
+  background: #d9d9d9; /* gris del hero */
+}
+
+.lumina-hero__title {
+  font-weight: 700;
+  font-size: clamp(2rem, 3vw, 3rem);
+  margin-bottom: 0.5rem;
+}
+
+.lumina-hero__subtitle {
+  margin: 0;
+  color: #333;
+}
+
+/* Título sección */
+.lumina-sectionTitle {
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+/* Card catálogo */
+.lumina-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform .12s ease;
+}
+
+.lumina-card:hover {
+  transform: translateY(-2px);
+}
+
+.lumina-card__imgWrap {
+  height: 320px;
+  background: #eee;
+}
+
+.lumina-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lumina-card__body {
+  padding: 12px 10px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.lumina-card__title {
+  margin: 0;
+  font-weight: 600;
+  color: #111;
+}
+
+/* Footer */
+.lumina-footer {
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.lumina-footer__brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.lumina-footer__title {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.lumina-footer__muted {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.lumina-footer__link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.lumina-footer__link:hover {
+  color: #111;
+  text-decoration: underline;
+}
+
+.lumina-footer__icon {
+  color: #111;
+  text-decoration: none;
+  font-weight: 700;
+}

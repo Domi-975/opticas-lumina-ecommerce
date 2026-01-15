@@ -1,0 +1,42 @@
+.lumina-nav {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.lumina-brand {
+  font-weight: 700;
+}
+
+.lumina-link {
+  color: #111;
+  font-size: 0.95rem;
+}
+
+.lumina-link:hover {
+  color: #111;
+  text-decoration: underline;
+}
+
+.lumina-pill {
+  padding: 6px 14px !important;
+  border-radius: 999px;
+  background: #111;
+  color: #fff !important;
+  font-size: 0.9rem;
+}
+
+.lumina-pill:hover {
+  background: #111;
+  color: #fff !important;
+}
+
+.lumina-cart {
+  color: #111;
+  font-size: 1.1rem;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.lumina-cart:hover {
+  background: #f3f3f3;
+}
