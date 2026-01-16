@@ -1,49 +1,30 @@
-import React from 'react';
-import { ProductProvider } from "./context/ProductContext";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Estilos Bootstrap
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-// Importa los componentes
-import Home from 'src/components/Home';
-import ProductGallery from 'src/components/ProductGallery';
-import ProductDetail from 'src/components/ProductDetail';
-import Register from 'src/components/Register';
-import Login from 'src/components/Login';
+import Home from "./pages/Home/Home";
+import ProductGallery from "./components/ProductGallery";
+import ProductDetail from "./components/ProductDetail";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
-function App() {
+// ✅ NUEVO
+import Cart from "./pages/Cart/Cart";
+
+export default function App() {
   return (
-    <ProductProvider>
     <Router>
-      <div className="App">
-        {/* Navbar básica para navegación */}
-        <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-          <div className="container">
-            <Link className="navbar-brand" to="/">Ópticas Lumina</Link>
-            <div className="navbar-nav">
-              <Link className="nav-link" to="/">Home</Link>
-              <Link className="nav-link" to="/products">Productos</Link>
-              <Link className="nav-link" to="/register">Register</Link>
-              <Link className="nav-link" to="/login">Login</Link>
-              {/* TODO: Agregar links para rutas privadas (Perfil, carrito, publicar) cuando se implementen */}
-            </div>
-          </div>
-        </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/productos" element={<ProductGallery />} />
+        <Route path="/producto/:id" element={<ProductDetail />} />
 
-        {/* Definición de rutas públicas */}
-        <div style={{ paddingTop: '80px' }}> {/* Agregué este div con padding-top para que el contenido no se oculte detrás de la navbar fija */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<ProductGallery />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            {/* TODO: Agregar rutas privadas con protección (ej. usando un hook para verificar login) */}
-          </Routes>
-        </div>
-      </div>
+        {/* ✅ NUEVO */}
+        <Route path="/carrito" element={<Cart />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </Router>
-    </ProductProvider>
   );
 }
-
-export default App;
