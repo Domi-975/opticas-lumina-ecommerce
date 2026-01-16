@@ -8,6 +8,9 @@ import ProductDetail from "./components/ProductDetail";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
+// ✅ NUEVO
+import Cart from "./pages/Cart/Cart";
+
 export default function App() {
   return (
     <Router>
@@ -15,6 +18,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<ProductGallery />} />
         <Route path="/producto/:id" element={<ProductDetail />} />
+
+        {/* ✅ NUEVO */}
+        <Route path="/carrito" element={<Cart />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
