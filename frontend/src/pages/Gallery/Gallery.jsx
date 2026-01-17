@@ -1,12 +1,17 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductContext";
+import { Link } from "react-router-dom";
 
-export default function ProductGallery() {
-  const [params] = useSearchParams();
-  const cat = params.get("cat"); // ej: sol, recetados, contacto
+const ProductGallery = () => {
+  const { products, loading } = useProducts();
 
-  const filtered = cat ? products.filter(p => p.category === cat) : products;
+  if (loading) {
+    return (
+      <div className="container mt-5 text-center">
+        <p>Cargando productos...</p>
+      </div>
+    );
+  }
 
   return (
     <section className="lumina-section">
@@ -15,14 +20,8 @@ export default function ProductGallery() {
           Galería de productos
         </h1>
 
-        {cat && (
-          <p className="text-center">
-            Filtrando por categoría: <strong>{cat}</strong>
-          </p>
-        )}
-
         <div className="row g-4 justify-content-center">
-          {filtered.map((product) => (
+          {products.map((product) => (
             <div key={product.id} className="col-10 col-sm-8 col-md-4">
               <Link
                 to={`/producto/${product.id}`}
@@ -43,4 +42,6 @@ export default function ProductGallery() {
       </div>
     </section>
   );
-}
+};
+
+export default ProductGallery;
