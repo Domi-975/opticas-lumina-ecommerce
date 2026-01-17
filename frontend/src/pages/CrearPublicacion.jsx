@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../pages/CrearPublicacion.css'
 
 const CrearPublicacion = () => {
   const [formData, setFormData] = useState({ nombre: '', descripcion: '', precio: '', categoria: '', stock: '', imagen: '' })
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
+  // Función que se ejecuta al enviar el formulario y evitar que la página se recargue.
   const handleSubmit = (e) => {
     e.preventDefault()
     if (formData.precio <= 0) {
@@ -16,6 +18,13 @@ const CrearPublicacion = () => {
     }
     console.log('publicacion creada', formData)
   }
+
+  // Sumamos useEffect para que valide el formulario, que ninguno de los campos esté vacío. Trae el array de valores, con el Some devuelve true si al menos uno de ellos está vacío
+  useEffect(() => {
+    const camposVacios = Object.values(formData).some(value => value === '')
+    setIsDisabled(camposVacios)
+  }, [formData]) // se ejecuta cuando cambia input
+
   return (
     <div className='container'>
       <div className='crear-publicacion'>
@@ -90,7 +99,7 @@ const CrearPublicacion = () => {
             </div>
           </div>
 
-          <button type='submit' className='btn-submit'> Crear publicación</button>
+          <button type='submit' className='btn-submit' disabled={isDisabled}> Crear publicación</button>
         </form>
       </div>
     </div>
