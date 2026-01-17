@@ -2,15 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '../../../../../../vite.svg'
 import './App.css'
-import MiPerfil from './pages/MiPerfil'
+import CrearPublicacion from './pages/CrearPublicacion'
 
 function App () {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
     <>
       <div>
-        <MiPerfil />
         <a href='https://vite.dev' target='_blank' rel='noreferrer'>
           <img src={viteLogo} className='logo' alt='Vite logo' />
         </a>
