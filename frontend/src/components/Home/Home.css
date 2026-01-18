@@ -17,6 +17,10 @@
   color: #111 !important;
 }
 
+.lumina-navlinks .nav-link.lumina-pill-active {
+  color: #fff !important;
+}
+
 .lumina-pill-active {
   padding: 6px 12px !important;
   border-radius: 10px;

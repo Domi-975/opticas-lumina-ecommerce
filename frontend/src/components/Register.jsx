@@ -35,7 +35,7 @@ const Register = () => {
               </div>
 
               <div className="d-flex justify-content-center align-items-center">
-                <button type="submit" className="btn btnLogin">
+                <button type="submit" className="btn btn-light text-dark fw-semibold">
                  Registrarse
                 </button>
               </div>

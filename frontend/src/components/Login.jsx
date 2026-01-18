@@ -21,7 +21,7 @@ const Login = () => {
                 <input type="password" className="form-control" placeholder="Contraseña" />
               </div>
               <div className="d-flex justify-content-center align-items-center">
-                <button type="submit" className="btn btnLogin">
+                <button type="submit" className="btn btn-light text-dark fw-semibold">
                   Iniciar Sesión
                 </button>
               </div>
