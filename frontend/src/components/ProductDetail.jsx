@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useProducts } from "../context/ProductContext";
+import { products as fallbackProducts } from "../data/products";
 
 
 const ProductDetail = () => {
@@ -10,7 +11,7 @@ const ProductDetail = () => {
   if (loading) return <div>Cargando...</div>;
 
   const productId = Number(id);
-  const product = products.find(p => p.id === productId);
+  const product = (products || []).find(p => p.id === productId) || fallbackProducts.find(p => p.id === productId);
 
   if (!product) return <div>Producto no encontrado</div>;
 
@@ -27,23 +28,25 @@ const ProductDetail = () => {
           <h1>{product.product_name}</h1>
           <h5 className="mt-3">Precio: ${product.product_price}</h5>
           <p style={{ whiteSpace: "pre-line" }}>{product.product_description}</p>
-          <button className="btn btnLogin mt-3">Agregar al carrito</button>
+          <button className="btn btn-dark text-white mt-3">Agregar al carrito</button>
         </div>
       </div>
     </div>
-    <div className="container mt-5">
-      <div className="categorias d-flex justify-content-start align-items-left gap-3">
-        <div className="row">
-        {product.product_categories.map((category, index) => (
-            <div className="col-sm-12 col-md-4">
-            <img src={category.image} alt={category.name} className="rounded"style={{ width: "235px" }} />
-            <h4 className="mt-3">{category.name}</h4>
-            <h6>Precio: ${category.price}</h6>
-            </div>
-        ))}
+    {Array.isArray(product.product_categories) && product.product_categories.length > 0 && (
+      <div className="container mt-5">
+        <div className="categorias d-flex justify-content-start align-items-left gap-3">
+          <div className="row">
+            {product.product_categories.map((category, index) => (
+              <div key={index} className="col-sm-12 col-md-4">
+                <img src={category.image} alt={category.name} className="rounded" style={{ width: "235px" }} />
+                <h4 className="mt-3">{category.name}</h4>
+                <h6>Precio: ${category.price}</h6>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    )}
     </div>
     
   );

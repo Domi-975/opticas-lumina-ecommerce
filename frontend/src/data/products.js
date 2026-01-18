@@ -6,6 +6,23 @@ export const products = [
     product_description: "Armazón liviano, ideal para uso diario.",
     image: "/images/catalogo-recetados.jpg",
     category: "recetados",
+    product_categories: [
+      {
+        name: "Central destello",
+        image: "https://ilusionesoptica.com/wp-content/uploads/2025/02/IMG_4469-300x300.jpg",
+        price: 60,
+      },
+      {
+        name: "Central flama",
+        image: "http://ilusionesoptica.com/wp-content/uploads/2024/09/IMG_4432-300x300.jpg",
+        price: 70,
+      },
+      {
+        name: "Prototype joaquin",
+        image: "https://ilusionesoptica.com/wp-content/uploads/2023/08/13-IMG_4242-300x300.jpg",
+        price: 80,
+      },
+    ],
   },
   {
     id: 2,

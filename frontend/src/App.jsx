@@ -7,18 +7,27 @@ import ProductDetail from "./components/ProductDetail";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import MiPerfil from "./pages/MiPerfil";
-
-// ✅ NUEVO
 import Cart from "./pages/Cart/Cart";
+import Navbar from "./components/Navbar";
+import Nosotros from "./pages/Nosotros";
+import Tienda from "./pages/Tienda";
+import Servicios from "./pages/Servicios";
+import Pagos from "./pages/Pagos";
+import Contacto from "./pages/Contacto";
 
 export default function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/nosotros" element={<Nosotros />} />
+        <Route path="/tienda" element={<Tienda />} />
+        <Route path="/servicios" element={<Servicios />} />
         <Route path="/productos" element={<ProductGallery />} />
+        <Route path="/pagos" element={<Pagos />} />
+        <Route path="/contacto" element={<Contacto />} />
         <Route path="/producto/:id" element={<ProductDetail />} />
-        {/* ✅ NUEVO */}
         <Route path="/carrito" element={<Cart />} />
         <Route path="/mi-perfil" element={<MiPerfil />} />
         <Route path="/login" element={<Login />} />
