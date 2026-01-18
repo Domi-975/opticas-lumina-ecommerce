@@ -1,12 +1,132 @@
-import React from 'react';
+import React from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { products } from "../data/products";
+import HomeFooter from "./Home/HomeFooter";
+import "./Home/Home.css";
 
-const ProductGallery = () => {
+const formatCLP = (n) =>
+  new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    maximumFractionDigits: 0,
+  }).format(Number(n) || 0);
+
+export default function ProductGallery() {
+  const [params] = useSearchParams();
+  const cat = params.get("cat"); // sol | recetados | contacto
+
+  const filtered = cat ? products.filter((p) => p.category === cat) : products;
+
   return (
-    <div className="container mt-5">
-      <h1>Galería de Productos</h1>
-      <p>Aquí se mostrarán los productos. (TODO: Conectar con API)</p>
-    </div>
-  );
-};
+    <>
+      <section className="lumina-section">
+        <div className="container">
+          <div className="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 mb-4">
+            <div>
+              <h1 className="lumina-section__title mb-1">Productos</h1>
+              <p className="text-muted mb-0">
+                {cat ? (
+                  <>
+                    Categoría: <strong>{cat}</strong> · {filtered.length} items
+                  </>
+                ) : (
+                  <>Explora nuestro catálogo · {filtered.length} items</>
+                )}
+              </p>
+            </div>
 
-export default ProductGallery;
+            {/* mini filtros rápidos */}
+            <div className="d-flex gap-2 flex-wrap">
+              <Link className="btn btn-outline-dark btn-sm" to="/productos">
+                Todos
+              </Link>
+              <Link
+                className="btn btn-outline-dark btn-sm"
+                to="/productos?cat=sol"
+              >
+                Sol
+              </Link>
+              <Link
+                className="btn btn-outline-dark btn-sm"
+                to="/productos?cat=recetados"
+              >
+                Recetados
+              </Link>
+              <Link
+                className="btn btn-outline-dark btn-sm"
+                to="/productos?cat=contacto"
+              >
+                Contacto
+              </Link>
+            </div>
+          </div>
+
+          <div className="row g-4">
+            {filtered.map((p) => (
+              <div key={p.id} className="col-12 col-sm-6 col-lg-4">
+                <div className="card h-100 product-card shadow-sm">
+                  <div className="product-card__imgWrap">
+                    <img
+                      src={p.image}
+                      alt={p.product_name}
+                      className="product-card__img"
+                      loading="lazy"
+                    />
+                    <span className="badge bg-dark product-card__badge">
+                      {p.category}
+                    </span>
+                  </div>
+
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title mb-1">{p.product_name}</h5>
+
+                    {/* si no tienes precio real aún, deja un fallback */}
+                    <p className="mb-3 text-muted">
+                      {p.product_price
+                        ? formatCLP(p.product_price)
+                        : "Precio por confirmar"}
+                    </p>
+
+                    {/* descripción cortita si existe */}
+                    {p.product_description && (
+                      <p className="small text-secondary mb-3 product-card__desc">
+                        {p.product_description}
+                      </p>
+                    )}
+
+                    <div className="mt-auto d-flex gap-2">
+                      <Link
+                        to={`/producto/${p.id}`}
+                        className="btn btn-dark w-100"
+                      >
+                        Ver detalle
+                      </Link>
+
+                      <button
+                        type="button"
+                        className="btn btn-outline-dark w-100"
+                        onClick={() => alert("TODO: agregar al carrito")}
+                      >
+                        Agregar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {filtered.length === 0 && (
+              <div className="col-12">
+                <div className="alert alert-light border text-center">
+                  No hay productos para esta categoría.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <HomeFooter />
+    </>
+  );
+}
