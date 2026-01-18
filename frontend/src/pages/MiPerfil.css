@@ -9,12 +9,12 @@
         0 10px 30px rgba(0, 0, 0, 0.08),
         0 2px 6px rgba(0, 0, 0, 0.05);
 }
-
 .col-izquierda {
     display: flex;
     flex-direction: column;
     gap: 30px;
-  }
+}
+
 .layout{
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -23,6 +23,7 @@
 }
 .perfil-container h1 {
     text-align: left;
+    color: #111F35;
 }
 
 .informacion {
@@ -41,6 +42,7 @@
 .informacion button:hover {
     background-color: #FA812F;
     transform: translateY(-2px);
+
 }
 
 .datos-perfil {
@@ -48,18 +50,30 @@
     flex-direction: column;
     gap: 10px;
     max-width: 400px;
-    margin-top: 0px;
     align-self: start;
-
+    color:#111F35;
 }
 
 .datos-perfil input {
-border: none;
-border-bottom: 1px solid #FFB22C;
-background-color: #ffff;
-color:#111F35;
-padding: 10px;
-outline:none;
+    border: none;
+    border-bottom: 1px solid #FFB22C;
+    background-color: #fff;
+    color:#111F35;
+    padding: 10px;
+    outline:none;
+}
+
+.guardarbtn {
+    width:150px;
+    padding:10px;
+    background-color:#111F35;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 0px;
+    align-self: start;
+
 }
 
 .guardarbtn {
@@ -95,6 +109,7 @@ text-align: center;
 .cambiarimagenbtn{
     background-color:#111F35;
     margin-top: 10px;
+    border: none;
     border-radius: 10px;
     cursor:pointer;
 }
@@ -105,4 +120,40 @@ text-align: center;
 }
 .inputfoto{
     display: none;
+}
+.perfil-menu {
+    width: 100%;
+}
+  
+.perfil-menu button {
+    width: 100%;
+}
+
+.col-derecha {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+    .layout {
+        column-gap: 40px;
+        }
+    }
+@media (max-width: 768px) {
+    .layout {
+      grid-template-columns: 1fr;
+      row-gap: 30px;
+    }
+    .datos-perfil {
+        max-width: 100%;
+    }
+    .guardarbtn {
+        width: 100%;
+    }
+    .img-avatar {
+        width: 140px;
+        height: 140px;
+        margin-top: 10px;
+    }
+  }
 }

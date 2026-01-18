@@ -40,7 +40,10 @@ const MiPerfil = () => {
           />
           <PerfilMenu />
         </div>
-        <PerfilForm perfil={perfil} setPerfil={setPerfil} />
+
+        <div className='col-derecha'>
+          <PerfilForm perfil={perfil} setPerfil={setPerfil} />
+        </div>
       </div>
     </div>
   )

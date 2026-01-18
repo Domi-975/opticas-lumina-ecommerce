@@ -1,0 +1,104 @@
+.container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.formcontainer{
+    padding: 10px;
+}
+
+.crear-publicacion {
+    background-color: #ffffff;
+    gap:20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 520px;
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.crear-publicacion h2{
+    color: black;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form label {
+    font-size: 18px;
+    font-weight: 400;
+    color: black;
+}
+
+.form input,
+.form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  background-color: #d1d5db;
+  border: none;
+  font-size: 14px;
+  color: black;
+  transition: border 0.2s ease;
+}
+  
+.form input:focus,
+.form textarea:focus {
+    outline: none;
+    border-color: #111f35;
+}
+  
+.btn-submit {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #111f35;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    width: 50%;
+}
+  
+.btn-submit:hover {
+    background-color: #1e2f4f;
+}
+
+@media (max-width: 480px) {
+.crear-publicacion {
+padding: 20px;
+border-radius: 8px;
+}
+
+.crear-publicacion h2 {
+font-size: 20px;
+text-align: center;
+}
+
+.form label {
+font-size: 15px;
+}
+
+.form input,
+.form textarea {
+font-size: 16px;
+padding: 10px;
+}
+
+.btn-submit {
+width: 100%;
+font-size: 16px;
+padding: 16px;
+}
+
+.btn-submit:disabled {
+background-color: #9ca3af;
+cursor: not-allowed;
+}
+}
