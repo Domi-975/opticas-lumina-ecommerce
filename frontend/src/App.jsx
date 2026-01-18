@@ -6,6 +6,7 @@ import ProductGallery from "./components/ProductGallery";
 import ProductDetail from "./components/ProductDetail";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import MiPerfil from "./pages/MiPerfil";
 
 // ✅ NUEVO
 import Cart from "./pages/Cart/Cart";
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/producto/:id" element={<ProductDetail />} />
         {/* ✅ NUEVO */}
         <Route path="/carrito" element={<Cart />} />
+        <Route path="/mi-perfil" element={<MiPerfil />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
