@@ -1,0 +1,14 @@
+.divNotFound{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+}
+.btnVolver{
+    text-decoration: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 5px;
+    display: inline-block;
+  }

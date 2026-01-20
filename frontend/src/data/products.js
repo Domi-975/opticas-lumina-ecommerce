@@ -1,76 +1,93 @@
 export const products = [
   {
     id: 1,
-    product_name: "Lentes Clásicos",
+    product_name: 'Lentes Clásicos',
     product_price: 49990,
-    product_description: "Armazón liviano, ideal para uso diario.",
-    image: "/images/catalogo-recetados.jpg",
-    category: "recetados",
+    product_description: 'Armazón liviano, ideal para uso diario.',
+    image: '/images/catalogo-recetados.jpg',
+    category: 'recetados',
+    product_categories: [
+      {
+        name: 'Central destello',
+        image: 'https://ilusionesoptica.com/wp-content/uploads/2025/02/IMG_4469-300x300.jpg',
+        price: 60
+      },
+      {
+        name: 'Central flama',
+        image: 'http://ilusionesoptica.com/wp-content/uploads/2024/09/IMG_4432-300x300.jpg',
+        price: 70
+      },
+      {
+        name: 'Prototype joaquin',
+        image: 'https://ilusionesoptica.com/wp-content/uploads/2023/08/13-IMG_4242-300x300.jpg',
+        price: 80
+      }
+    ]
   },
   {
     id: 2,
-    product_name: "Lentes de Sol Urbanos",
+    product_name: 'Lentes de Sol Urbanos',
     product_price: 69990,
-    product_description: "Protección UV con diseño moderno.",
-    image: "/images/catalogo-sol.jpg",
-    category: "sol",
+    product_description: 'Protección UV con diseño moderno.',
+    image: '/images/catalogo-sol.jpg',
+    category: 'sol'
   },
   {
     id: 3,
-    product_name: "Lentes Deportivos",
+    product_name: 'Lentes Deportivos',
     product_price: 89990,
-    product_description: "Pensados para alto rendimiento y comodidad.",
-    image: "/images/catalogo-contacto.jpg",
-    category: "contacto",
+    product_description: 'Pensados para alto rendimiento y comodidad.',
+    image: '/images/catalogo-contacto.jpg',
+    category: 'contacto'
   },
 
   {
     id: 4,
-    product_name: "Lentes Elegance",
+    product_name: 'Lentes Elegance',
     product_price: 54990,
-    product_description: "Diseño elegante para uso profesional.",
-    image: "/images/catalogo-recetados.jpg",
-    category: "recetados",
+    product_description: 'Diseño elegante para uso profesional.',
+    image: '/images/catalogo-recetados.jpg',
+    category: 'recetados'
   },
   {
     id: 5,
-    product_name: "Lentes de Sol Premium",
+    product_name: 'Lentes de Sol Premium',
     product_price: 79990,
-    product_description: "Protección avanzada y estilo sofisticado.",
-    image: "/images/catalogo-sol.jpg",
-    category: "sol",
+    product_description: 'Protección avanzada y estilo sofisticado.',
+    image: '/images/catalogo-sol.jpg',
+    category: 'sol'
   },
   {
     id: 6,
-    product_name: "Lentes de Contacto Mensuales",
+    product_name: 'Lentes de Contacto Mensuales',
     product_price: 29990,
-    product_description: "Visión clara y cómoda durante todo el mes.",
-    image: "/images/catalogo-contacto.jpg",
-    category: "contacto",
+    product_description: 'Visión clara y cómoda durante todo el mes.',
+    image: '/images/catalogo-contacto.jpg',
+    category: 'contacto'
   },
 
   {
     id: 7,
-    product_name: "Lentes Retro",
+    product_name: 'Lentes Retro',
     product_price: 45990,
-    product_description: "Inspirados en diseños clásicos atemporales.",
-    image: "/images/catalogo-recetados.jpg",
-    category: "recetados",
+    product_description: 'Inspirados en diseños clásicos atemporales.',
+    image: '/images/catalogo-recetados.jpg',
+    category: 'recetados'
   },
   {
     id: 8,
-    product_name: "Lentes de Sol Polarizados",
+    product_name: 'Lentes de Sol Polarizados',
     product_price: 84990,
-    product_description: "Reducción de reflejos y mayor nitidez visual.",
-    image: "/images/catalogo-sol.jpg",
-    category: "sol",
+    product_description: 'Reducción de reflejos y mayor nitidez visual.',
+    image: '/images/catalogo-sol.jpg',
+    category: 'sol'
   },
   {
     id: 9,
-    product_name: "Lentes de Contacto Diarios",
+    product_name: 'Lentes de Contacto Diarios',
     product_price: 24990,
-    product_description: "Máxima higiene y comodidad día a día.",
-    image: "/images/catalogo-contacto.jpg",
-    category: "contacto",
-  },
-];
+    product_description: 'Máxima higiene y comodidad día a día.',
+    image: '/images/catalogo-contacto.jpg',
+    category: 'contacto'
+  }
+]

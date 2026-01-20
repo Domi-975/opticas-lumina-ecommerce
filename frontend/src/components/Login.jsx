@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom'
 const Login = () => {
   const { login, token } = useContext(UserContext)
   const navigate = useNavigate()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -21,7 +20,6 @@ const Login = () => {
   }, [token, navigate])
   return (
     <div className='d-flex justify-content-center align-items-center vh-100 '>
-
       <div className='card d-flex justify-content-center align-items-center p-4 bg-dark text-light'>
         <div className='card-title'>
           <h1>Login</h1>
