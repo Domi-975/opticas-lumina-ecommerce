@@ -11,3 +11,5 @@ app.get('/', (req, res) => res.send('Backend de Ópticas Lumina funcionando!'))
 
 // Iniciar el servidor
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`))
+
+export default app
