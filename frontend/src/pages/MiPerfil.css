@@ -37,6 +37,7 @@
     padding: 16px;
     border-radius: 10px;
     text-align: center;
+    color:white;
     cursor: pointer;
 }
 .informacion button:hover {
@@ -66,6 +67,7 @@
 .guardarbtn {
     width:150px;
     padding:10px;
+    color:white;
     background-color:#111F35;
     cursor: pointer;
     border: none;
@@ -112,6 +114,7 @@ text-align: center;
     border: none;
     border-radius: 10px;
     cursor:pointer;
+    color:white;
 }
 .cambiarimagenbtn:hover{
     opacity: 0.8;
@@ -156,4 +159,3 @@ text-align: center;
         margin-top: 10px;
     }
   }
-}

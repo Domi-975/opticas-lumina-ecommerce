@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "react-toastify": "^11.0.5"
   }
 }
