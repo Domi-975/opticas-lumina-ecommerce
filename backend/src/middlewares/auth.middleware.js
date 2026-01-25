@@ -1,4 +1,4 @@
-const authMiddleware = (req, res, next) => {
+export default function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -8,6 +8,4 @@ const authMiddleware = (req, res, next) => {
   }
 
   next();
-};
-
-module.exports = authMiddleware;
+}
