@@ -1,15 +1,27 @@
-const express = require('express')
+import express from 'express'
+import cors from 'cors'
+import authRouter from './routes/auth.js'
+import productDetailRouter from './routes/productDetail.js'
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
-// Middleware para parsear JSON y habilitar CORS
+// Middleware
 app.use(express.json())
-app.use(require('cors')())
+app.use(cors())
 
-// Ruta para probar
-app.get('/', (req, res) => res.send('Backend de Ópticas Lumina funcionando!'))
+// Ruta de prueba
+app.get('/', (req, res) => {
+  res.send('Backend de Ópticas Lumina funcionando!')
+})
 
-// Iniciar el servidor
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`))
+// Rutas principales
+app.use(authRouter)
+app.use(productDetailRouter)
+
+// Servidor
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`)
+})
 
 export default app
