@@ -1,11 +1,7 @@
 import 'dotenv/config';
-console.log("🔥 SERVER.JS CORRECTO CARGADO");
-
 import app from './app.js';
 
 const PORT = process.env.PORT || 5000;
-
-console.log("🔥 APP IMPORTADO, tipo:", typeof app);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
