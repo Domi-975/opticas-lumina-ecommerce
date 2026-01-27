@@ -6,7 +6,6 @@ const router = Router();
 
 /**
  * GET /users/profile
- * Perfil del usuario autenticado.
  */
 router.get('/users/profile', requireAuth, async (req, res) => {
   try {
@@ -20,19 +19,12 @@ router.get('/users/profile', requireAuth, async (req, res) => {
       [userId]
     );
 
-    if (userRes.rowCount === 0) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
+    if (userRes.rowCount === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
 
     return res.status(200).json({ user: userRes.rows[0] });
   } catch (error) {
     return res.status(500).json({ message: 'Error al obtener perfil', error: error.message });
   }
-});
-
-// ping de prueba
-router.get('/users/ping', (req, res) => {
-  res.json({ ok: true, router: 'users' });
 });
 
 export default router;
