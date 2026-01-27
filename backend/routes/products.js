@@ -3,6 +3,10 @@ import pool from '../DB/config.js';
 
 const router = Router();
 
+/**
+ * GET /products
+ * Lista productos activos + categoria + imagenes + precio_min (sku activo)
+ */
 router.get('/products', async (req, res) => {
   try {
     const result = await pool.query(
@@ -13,7 +17,6 @@ router.get('/products', async (req, res) => {
           p.slug,
           p.descripcion,
           p.marca,
-          p.activo,
           c.nombre_categoria,
           c.slug AS categoria_slug,
           COALESCE(
