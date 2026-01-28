@@ -1,6 +1,8 @@
 // ✅ NUEVO
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useContext } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import Home from './pages/Home/Home'
@@ -35,6 +37,7 @@ export default function App () {
         <Route path='/register' element={token ? <Navigate to='/' /> : <Register />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <ToastContainer position="bottom-right" theme="colored" />
     </Router>
   )
 }

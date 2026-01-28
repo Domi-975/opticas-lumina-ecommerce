@@ -35,7 +35,7 @@ const Login = () => {
               <input type='password' className='form-control' placeholder='Contraseña' value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className='d-flex justify-content-center align-items-center'>
-              <button type='submit' className='btn btnLogin'>
+              <button type='submit' className='btn bg-white text-dark'>
                 Iniciar Sesión
               </button>
             </div>
