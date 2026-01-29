@@ -56,10 +56,15 @@ router.post('/auth/login', async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET_HEX, { expiresIn: '2h' });
-    return res.status(200).json({ token });
+    return res.status(200).json({ token, email: user.email });
   } catch (error) {
     return res.status(500).json({ message: 'Error en login', error: error.message });
   }
+});
+
+// POST /auth/logout
+router.post('/auth/logout', (req, res) => {
+  return res.status(200).json({ message: 'Sesión cerrada exitosamente' });
 });
 
 export default router;

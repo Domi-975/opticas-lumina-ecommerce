@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 import './Home/Home.css'
 
 export default function Navbar () {
+  const { token, logout } = useContext(UserContext)
   const linkClass = ({ isActive }) =>
     `nav-link${isActive ? ' lumina-pill-active' : ''}`
 
@@ -65,9 +68,15 @@ export default function Navbar () {
           </ul>
 
           <div className='d-flex align-items-center gap-3'>
-            <NavLink to='/login' className='btn btn-outline-dark btn-sm'>
-              Login
-            </NavLink>
+            {token ? (
+              <button onClick={logout} className='btn btn-outline-dark btn-sm'>
+                Logout
+              </button>
+            ) : (
+              <NavLink to='/login' className='btn btn-outline-dark btn-sm'>
+                Login
+              </NavLink>
+            )}
             <NavLink
               to='/carrito'
               className='text-dark text-decoration-none'
