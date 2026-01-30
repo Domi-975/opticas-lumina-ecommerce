@@ -1,41 +1,37 @@
-import { createContext, useContext, useEffect, useState } from 'react'
-import { products as fallbackProducts } from '../data/products'
+import { createContext, useContext, useEffect, useState } from "react";
 
-const ProductContext = createContext()
+const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const tryLoad = async (url) => {
-        try {
-          const res = await fetch(url)
-          if (!res.ok) return null
-          const data = await res.json()
-          if (!Array.isArray(data) || data.length === 0) return null
-          return data
-        } catch {
-          return null
-        }
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const res = await fetch(`${apiUrl}/products`);
+        if (!res.ok) throw new Error("Error al cargar productos");
+
+        const data = await res.json();
+
+        setProducts(data.products ?? []);
+      } catch (e) {
+        console.error(e);
+        setProducts([]);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const from3001 = await tryLoad('http://localhost:3001/products')
-      const from3000 = from3001 ? null : await tryLoad('http://localhost:3000/products')
-      const finalData = from3001 || from3000
-
-      setProducts(finalData || fallbackProducts)
-      setLoading(false)
-    }
-    load()
-  }, [])
+    load();
+  }, []);
 
   return (
     <ProductContext.Provider value={{ products, loading }}>
       {children}
     </ProductContext.Provider>
-  )
-}
+  );
+};
 
-export const useProducts = () => useContext(ProductContext)
+export const useProducts = () => useContext(ProductContext);
