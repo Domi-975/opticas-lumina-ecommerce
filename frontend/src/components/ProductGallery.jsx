@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductContext";
 import HomeFooter from "./Home/HomeFooter";
 import "./Home/Home.css";
 
@@ -13,9 +13,17 @@ const formatCLP = (n) =>
 
 export default function ProductGallery() {
   const [params] = useSearchParams();
-  const cat = params.get("cat"); // sol | recetados | contacto
+  const cat = params.get("cat"); // usa categoria_slug desde el backend
 
-  const filtered = cat ? products.filter((p) => p.category === cat) : products;
+  const { products, loading } = useProducts();
+
+  const filtered = cat
+    ? products.filter((p) => p.categoria_slug === cat)
+    : products;
+
+  if (loading) {
+    return <p className="text-center mt-5">Cargando productos...</p>;
+  }
 
   return (
     <>
@@ -42,7 +50,7 @@ export default function ProductGallery() {
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=sol"
+                to="/productos?cat=lentes-de-sol"
               >
                 Sol
               </Link>
@@ -67,30 +75,28 @@ export default function ProductGallery() {
                 <div className="card h-100 product-card shadow-sm">
                   <div className="product-card__imgWrap">
                     <img
-                      src={p.image}
-                      alt={p.product_name}
+                      src={p.imagenes?.[0] || "/placeholder.jpg"}
+                      alt={p.nombre_producto}
                       className="product-card__img"
                       loading="lazy"
                     />
                     <span className="badge bg-dark product-card__badge">
-                      {p.category}
+                      {p.nombre_categoria || "Categoría"}
                     </span>
                   </div>
 
                   <div className="card-body d-flex flex-column">
-                    <h5 className="card-title mb-1">{p.product_name}</h5>
+                    <h5 className="card-title mb-1">{p.nombre_producto}</h5>
 
-                    {/* si no tienes precio real aún, deja un fallback */}
                     <p className="mb-3 text-muted">
-                      {p.product_price
-                        ? formatCLP(p.product_price)
+                      {p.precio_min
+                        ? formatCLP(p.precio_min)
                         : "Precio por confirmar"}
                     </p>
 
-                    {/* descripción cortita si existe */}
-                    {p.product_description && (
+                    {p.descripcion && (
                       <p className="small text-secondary mb-3 product-card__desc">
-                        {p.product_description}
+                        {p.descripcion}
                       </p>
                     )}
 
