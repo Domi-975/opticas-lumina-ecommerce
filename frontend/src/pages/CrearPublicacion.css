@@ -1,9 +1,27 @@
-.container {
+.crear-publicacion-container {
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  background-color: #f8f9fa;
+}
+
+.table-responsive {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.btn-group .btn {
+  padding: 0.4rem 0.8rem;
 }
 .formcontainer{
     padding: 10px;

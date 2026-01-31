@@ -33,8 +33,9 @@ export default function Cart() {
                       style={{
                         width: 72,
                         height: 72,
-                        objectFit: "cover",
+                        objectFit: "contain",
                         borderRadius: 12,
+                        backgroundColor: "#f5f5f5"
                       }}
                     />
 

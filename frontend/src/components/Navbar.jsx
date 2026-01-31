@@ -4,7 +4,7 @@ import { UserContext } from '../context/UserContext'
 import './Home/Home.css'
 
 export default function Navbar () {
-  const { token, logout } = useContext(UserContext)
+  const { token, logout, email } = useContext(UserContext)
   const linkClass = ({ isActive }) =>
     `nav-link${isActive ? ' lumina-pill-active' : ''}`
 
@@ -46,16 +46,6 @@ export default function Navbar () {
               </NavLink>
             </li>
             <li className='nav-item'>
-              <NavLink to='/servicios' className={linkClass}>
-                Servicios
-              </NavLink>
-            </li>
-            <li className='nav-item'>
-              <NavLink to='/productos' className={linkClass}>
-                Productos
-              </NavLink>
-            </li>
-            <li className='nav-item'>
               <NavLink to='/pagos' className={linkClass}>
                 Formas de pago
               </NavLink>
@@ -65,13 +55,25 @@ export default function Navbar () {
                 Contacto
               </NavLink>
             </li>
+            {token && email === 'admin@lumina.com' && (
+              <li className='nav-item'>
+                <NavLink to='/publicar-producto' className={linkClass}>
+                  Publicar Producto
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           <div className='d-flex align-items-center gap-3'>
             {token ? (
-              <button onClick={logout} className='btn btn-outline-dark btn-sm'>
-                Logout
-              </button>
+              <>
+                <NavLink to='/perfil' className='btn btn-outline-dark btn-sm'>
+                  Mi Perfil
+                </NavLink>
+                <button onClick={logout} className='btn btn-outline-dark btn-sm'>
+                  Logout
+                </button>
+              </>
             ) : (
               <NavLink to='/login' className='btn btn-outline-dark btn-sm'>
                 Login

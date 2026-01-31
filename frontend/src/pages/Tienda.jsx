@@ -1,5 +1,8 @@
+import React from 'react'
 import ProductGallery from '../components/ProductGallery'
 
-export default function Tienda () {
+const Tienda = () => {
   return <ProductGallery />
 }
+
+export default Tienda

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
+import { useCart } from "../context/CartContext";
+import { toast } from "react-toastify";
 import HomeFooter from "./Home/HomeFooter";
 import "./Home/Home.css";
 
@@ -16,6 +18,17 @@ export default function ProductGallery() {
   const cat = params.get("cat"); // usa categoria_slug desde el backend
 
   const { products, loading } = useProducts();
+  const { addItem } = useCart();
+
+  const handleAddToCart = (p) => {
+    addItem({
+      id: p.id,
+      name: p.nombre_producto,
+      price: Number(p.precio_min),
+      image: p.imagenes?.[0] || "/placeholder.jpg"
+    });
+    toast.success(`${p.nombre_producto} agregado al carrito`);
+  };
 
   const filtered = cat
     ? products.filter((p) => p.categoria_slug === cat)
@@ -45,24 +58,24 @@ export default function ProductGallery() {
 
             {/* mini filtros rápidos */}
             <div className="d-flex gap-2 flex-wrap">
-              <Link className="btn btn-outline-dark btn-sm" to="/productos">
+              <Link className="btn btn-outline-dark btn-sm" to="/tienda">
                 Todos
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=lentes-de-sol"
+                to="/tienda?cat=lentes-de-sol"
               >
                 Sol
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=recetados"
+                to="/tienda?cat=recetados"
               >
                 Recetados
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=contacto"
+                to="/tienda?cat=contacto"
               >
                 Contacto
               </Link>
@@ -111,7 +124,7 @@ export default function ProductGallery() {
                       <button
                         type="button"
                         className="btn btn-outline-dark w-100"
-                        onClick={() => alert("TODO: agregar al carrito")}
+                        onClick={() => handleAddToCart(p)}
                       >
                         Agregar
                       </button>
