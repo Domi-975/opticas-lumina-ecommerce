@@ -1,7 +1,7 @@
 const items = [
-  { label: "Anteojos de sol", img: "/images/catalogo-sol.jpg", href: "/productos?cat=sol" },
-  { label: "Anteojos recetados", img: "/images/catalogo-recetados.jpg", href: "/productos?cat=recetados" },
-  { label: "Lentes de contacto", img: "/images/catalogo-contacto.jpg", href: "/productos?cat=contacto" },
+  { label: "Anteojos de sol", img: "/images/catalogo-sol.jpg", href: "/tienda" },
+  { label: "Anteojos recetados", img: "/images/catalogo-recetados.jpg", href: "/tienda" },
+  { label: "Lentes de contacto", img: "/images/catalogo-contacto.jpg", href: "/tienda" },
 ];
 
 

@@ -15,6 +15,7 @@ const app = express()
  */
 app.use(express.json())
 
+
 /**
  * CORS (listo para producción)
  * - En producción: define CORS_ORIGIN con el/los dominios del frontend
@@ -95,5 +96,20 @@ app.use((req, res) => {
     message: `Ruta no encontrada: ${req.method} ${req.originalUrl}`
   })
 })
+
+// Rutas
+app.use(authRouter);
+app.use(productsRouter);
+app.use(productDetailRouter);
+app.use(cartRouter);
+app.use(usersRouter);
+
+// 404
+app.use((req, res) => {
+  res.status(404).json({
+    message: `Ruta no encontrada: ${req.method} ${req.originalUrl}`
+  });
+});
+
 
 export default app

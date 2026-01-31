@@ -20,19 +20,26 @@ import Tienda from './pages/Tienda'
 import Servicios from './pages/Servicios'
 import Pagos from './pages/Pagos'
 import Contacto from './pages/Contacto'
+import CrearPublicacion from './pages/CrearPublicacion'
 
 export default function App () {
-  const { token } = useContext(UserContext)
+  const { token, email } = useContext(UserContext)
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/nosotros' element={<Nosotros />} />
+        <Route path='/tienda' element={<Tienda />} />
+        <Route path='/servicios' element={<Servicios />} />
         <Route path='/productos' element={<ProductGallery />} />
+        <Route path='/pagos' element={<Pagos />} />
+        <Route path='/contacto' element={<Contacto />} />
         <Route path='/producto/:id' element={<ProductDetail />} />
-        {/* ✅ NUEVO */}
         <Route path='/carrito' element={<Cart />} />
+        <Route path='/perfil' element={token ? <MiPerfil /> : <Navigate to='/login' />} />
         <Route path='/mi-perfil' element={token ? <MiPerfil /> : <Navigate to='/login' />} />
+        <Route path='/publicar-producto' element={token && email === 'admin@lumina.com' ? <CrearPublicacion /> : <Navigate to='/' />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={token ? <Navigate to='/' /> : <Register />} />
         <Route path='*' element={<NotFound />} />
