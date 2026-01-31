@@ -58,24 +58,24 @@ export default function ProductGallery() {
 
             {/* mini filtros rápidos */}
             <div className="d-flex gap-2 flex-wrap">
-              <Link className="btn btn-outline-dark btn-sm" to="/productos">
+              <Link className="btn btn-outline-dark btn-sm" to="/tienda">
                 Todos
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=lentes-de-sol"
+                to="/tienda?cat=lentes-de-sol"
               >
                 Sol
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=recetados"
+                to="/tienda?cat=recetados"
               >
                 Recetados
               </Link>
               <Link
                 className="btn btn-outline-dark btn-sm"
-                to="/productos?cat=contacto"
+                to="/tienda?cat=contacto"
               >
                 Contacto
               </Link>

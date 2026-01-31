@@ -17,7 +17,6 @@ import { UserContext } from './context/UserContext'
 import NotFound from './components/NotFound'
 import Nosotros from './pages/Nosotros'
 import Tienda from './pages/Tienda'
-import Servicios from './pages/Servicios'
 import Pagos from './pages/Pagos'
 import Contacto from './pages/Contacto'
 import CrearPublicacion from './pages/CrearPublicacion'
@@ -31,8 +30,6 @@ export default function App () {
         <Route path='/' element={<Home />} />
         <Route path='/nosotros' element={<Nosotros />} />
         <Route path='/tienda' element={<Tienda />} />
-        <Route path='/servicios' element={<Servicios />} />
-        <Route path='/productos' element={<ProductGallery />} />
         <Route path='/pagos' element={<Pagos />} />
         <Route path='/contacto' element={<Contacto />} />
         <Route path='/producto/:id' element={<ProductDetail />} />
