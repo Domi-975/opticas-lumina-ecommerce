@@ -15,11 +15,10 @@ const app = express()
  */
 app.use(express.json())
 
-
 /**
  * CORS (listo para producción)
  * - En producción: define CORS_ORIGIN con el/los dominios del frontend
- *   Ej: CORS_ORIGIN=https://tu-frontend.vercel.app
+ *   Ej: CORS_ORIGIN=https://tu-frontend.netlify.app
  *   o varios: CORS_ORIGIN=https://a.com,https://b.com
  * - En desarrollo: permite localhost:5173 por defecto
  */
@@ -41,8 +40,7 @@ app.use(
       // Permite requests sin origin (Postman, curl, server-to-server)
       if (!origin) return callback(null, true)
 
-      // Si no configuraste CORS_ORIGIN en prod, igual permitimos para no bloquearte,
-      // pero te recomiendo configurarlo en la plataforma de deploy.
+      // Si no configuraste CORS_ORIGIN en prod, no te bloqueo (pero es recomendable configurarlo)
       if (process.env.NODE_ENV === 'production' && allowedOrigins.length === 0) {
         return callback(null, true)
       }
@@ -75,7 +73,8 @@ app.get('/__debug', (req, res) => {
   res.json({
     ok: true,
     time: new Date().toISOString(),
-    env: process.env.NODE_ENV || 'development'
+    env: process.env.NODE_ENV || 'development',
+    allowedOrigins
   })
 })
 
@@ -96,20 +95,5 @@ app.use((req, res) => {
     message: `Ruta no encontrada: ${req.method} ${req.originalUrl}`
   })
 })
-
-// Rutas
-app.use(authRouter);
-app.use(productsRouter);
-app.use(productDetailRouter);
-app.use(cartRouter);
-app.use(usersRouter);
-
-// 404
-app.use((req, res) => {
-  res.status(404).json({
-    message: `Ruta no encontrada: ${req.method} ${req.originalUrl}`
-  });
-});
-
 
 export default app
