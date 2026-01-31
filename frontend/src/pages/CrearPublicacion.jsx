@@ -1,175 +1,318 @@
-import { useState, useEffect, useContext } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import { UserContext } from '../context/UserContext'
-import { useProducts } from '../context/ProductContext'
-import '../pages/CrearPublicacion.css'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 const CrearPublicacion = () => {
   const { token } = useContext(UserContext)
-  const { products, refreshProducts } = useProducts()
-  const [formData, setFormData] = useState({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
-  const [isDisabled, setIsDisabled] = useState(true)
+
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+
   const [editingId, setEditingId] = useState(null)
+
+  const [formData, setFormData] = useState({
+    nombre: '',
+    descripcion: '',
+    precio: '',
+    categoria_id: '',
+    stock: '',
+    imagen_url: ''
+  })
+
+  const canSubmit = useMemo(() => {
+    return (
+      formData.nombre.trim().length > 0 &&
+      formData.descripcion.trim().length > 0 &&
+      String(formData.precio).trim().length > 0 &&
+      String(formData.categoria_id).trim().length > 0 &&
+      String(formData.stock).trim().length > 0
+    )
+  }, [formData])
+
+  const resetForm = () => {
+    setEditingId(null)
+    setFormData({
+      nombre: '',
+      descripcion: '',
+      precio: '',
+      categoria_id: '',
+      stock: '',
+      imagen_url: ''
+    })
+  }
+
+  const fetchProducts = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch(`${API_URL}/products`)
+      if (!res.ok) throw new Error('Error al cargar productos')
+
+      const data = await res.json()
+      const list = data.products ?? data ?? []
+      setProducts(list)
+    } catch (error) {
+      console.error(error)
+      toast.error('No se pudieron cargar los productos')
+      setProducts([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const startEdit = (p) => {
+    setEditingId(p.id)
+
+    setFormData({
+      nombre: p.nombre ?? '',
+      descripcion: p.descripcion ?? '',
+      precio: p.precio ?? '',
+      categoria_id: p.categoria_id ?? '',
+      stock: p.stock ?? '',
+      imagen_url: p.imagen_url ?? ''
+    })
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (formData.precio <= 0) {
-      toast.error('El precio debe ser mayor a 0')
+
+    if (!token) {
+      toast.error('Debes iniciar sesión para crear/editar productos')
       return
     }
-    
-    try {
-      const url = editingId 
-        ? `http://localhost:5001/products/${editingId}`
-        : 'http://localhost:5001/products';
-      
-      const method = editingId ? 'PUT' : 'POST';
 
+    if (!canSubmit) {
+      toast.error('Completa todos los campos obligatorios')
+      return
+    }
+
+    const url = editingId
+      ? `${API_URL}/products/${editingId}`
+      : `${API_URL}/products`
+
+    const method = editingId ? 'PUT' : 'POST'
+
+    try {
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
-      });
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          descripcion: formData.descripcion,
+          precio: Number(formData.precio),
+          categoria_id: Number(formData.categoria_id),
+          stock: Number(formData.stock),
+          imagen_url: formData.imagen_url || null
+        })
+      })
 
-      if (response.ok) {
-        toast.success(editingId ? '¡Producto actualizado!' : '¡Producto publicado!');
-        setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' });
-        setEditingId(null);
-        refreshProducts();
-      } else {
-        const data = await response.json();
-        toast.error(data.message || 'Error en la operación');
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        toast.error(data.message || 'Error al guardar producto')
+        return
       }
-    } catch (error) {
-      console.error(error);
-      toast.error('Error de conexión');
-    }
-  }
 
-  const handleEdit = (product) => {
-    setEditingId(product.id);
-    setFormData({
-      titulo: product.nombre_producto,
-      descripcion: product.descripcion,
-      precio: product.precio_min,
-      categoria: product.nombre_categoria,
-      imagen: product.imagenes?.[0] || ''
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      toast.success(editingId ? 'Producto actualizado' : 'Producto creado')
+      resetForm()
+      fetchProducts()
+    } catch (error) {
+      console.error(error)
+      toast.error('Error al conectar con el servidor')
+    }
   }
 
   const handleDelete = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return;
+    if (!token) {
+      toast.error('Debes iniciar sesión para eliminar productos')
+      return
+    }
+
+    const ok = window.confirm('¿Seguro que deseas eliminar este producto?')
+    if (!ok) return
 
     try {
-      const response = await fetch(`http://localhost:5001/products/${id}`, {
+      const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
-      });
+      })
 
-      if (response.ok) {
-        toast.success('Producto eliminado');
-        refreshProducts();
-      } else {
-        toast.error('Error al eliminar');
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        toast.error(data.message || 'No se pudo eliminar')
+        return
       }
+
+      toast.success('Producto eliminado')
+      fetchProducts()
     } catch (error) {
-      toast.error('Error de conexión');
+      console.error(error)
+      toast.error('Error al conectar con el servidor')
     }
   }
 
-  const cancelEdit = () => {
-    setEditingId(null);
-    setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' });
-  }
-
-  useEffect(() => {
-    const camposVacios = Object.values(formData).some(value => value === '')
-    setIsDisabled(camposVacios)
-  }, [formData])
-
   return (
-    <div className='crear-publicacion-container flex-column py-5'>
-      <div className='crear-publicacion mb-5'>
-        <h2>{editingId ? 'Editar publicación' : 'Crear nueva publicación'}</h2>
+    <div className='container py-4'>
+      <h2 className='mb-3'>{editingId ? 'Editar producto' : 'Crear producto'}</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className='formcontainer'>
-            <div className='form'>
-              <label> URL de la imagen: </label>
-              <input type='text' name='imagen' placeholder='URL de la imagen' value={formData.imagen} onChange={handleChange} required />
-            </div>
-            <div className='form'>
-              <label> Título: </label>
-              <input type='text' name='titulo' placeholder='Nombre del lente' value={formData.titulo} onChange={handleChange} required />
-            </div>
-            <div className='form'>
-              <label> Descripción: </label>
-              <textarea name='descripcion' placeholder='Descripción' value={formData.descripcion} onChange={handleChange} required />
-            </div>
-            <div className='form'>
-              <label> Precio: </label>
-              <input type='number' name='precio' placeholder='Precio' value={formData.precio} onChange={handleChange} required />
-            </div>
-            <div className='form'>
-              <label> Categoría: </label>
-              <select name='categoria' value={formData.categoria} onChange={handleChange} required className="form-control">
-                <option value="">Selecciona una categoría</option>
-                <option value="Sol">Sol</option>
-                <option value="Recetados">Recetados</option>
-                <option value="De contacto">De contacto</option>
-              </select>
-            </div>
+      <form onSubmit={handleSubmit} className='card p-3 mb-4'>
+        <div className='row g-3'>
+          <div className='col-md-6'>
+            <label className='form-label'>Nombre *</label>
+            <input
+              name='nombre'
+              value={formData.nombre}
+              onChange={handleChange}
+              className='form-control'
+              placeholder='Nombre del producto'
+            />
           </div>
-          <div className="d-flex gap-2 mt-3">
-            <button type='submit' disabled={isDisabled} className={`btn ${editingId ? 'btn-warning' : 'btn-primary'} flex-grow-1`}>
-              {editingId ? 'Actualizar Producto' : 'Publicar Producto'}
+
+          <div className='col-md-6'>
+            <label className='form-label'>Precio *</label>
+            <input
+              name='precio'
+              type='number'
+              value={formData.precio}
+              onChange={handleChange}
+              className='form-control'
+              placeholder='19990'
+            />
+          </div>
+
+          <div className='col-md-12'>
+            <label className='form-label'>Descripción *</label>
+            <textarea
+              name='descripcion'
+              value={formData.descripcion}
+              onChange={handleChange}
+              className='form-control'
+              rows='3'
+              placeholder='Descripción del producto'
+            />
+          </div>
+
+          <div className='col-md-4'>
+            <label className='form-label'>Categoría ID *</label>
+            <input
+              name='categoria_id'
+              type='number'
+              value={formData.categoria_id}
+              onChange={handleChange}
+              className='form-control'
+              placeholder='1'
+            />
+          </div>
+
+          <div className='col-md-4'>
+            <label className='form-label'>Stock *</label>
+            <input
+              name='stock'
+              type='number'
+              value={formData.stock}
+              onChange={handleChange}
+              className='form-control'
+              placeholder='10'
+            />
+          </div>
+
+          <div className='col-md-4'>
+            <label className='form-label'>Imagen URL (opcional)</label>
+            <input
+              name='imagen_url'
+              value={formData.imagen_url}
+              onChange={handleChange}
+              className='form-control'
+              placeholder='https://... o /images/...'
+            />
+          </div>
+        </div>
+
+        <div className='d-flex gap-2 mt-3'>
+          <button className='btn btn-dark' type='submit' disabled={!canSubmit}>
+            {editingId ? 'Guardar cambios' : 'Crear producto'}
+          </button>
+
+          {editingId && (
+            <button
+              className='btn btn-outline-secondary'
+              type='button'
+              onClick={resetForm}
+            >
+              Cancelar edición
             </button>
-            {editingId && (
-              <button type="button" onClick={cancelEdit} className="btn btn-secondary">
-                Cancelar
-              </button>
-            )}
-          </div>
-        </form>
-      </div>
+          )}
+        </div>
+      </form>
 
-      <div className="container mt-4">
-        <h3 className="mb-4">Gestión de Productos</h3>
-        <div className="table-responsive bg-white p-3 rounded shadow-sm">
-          <table className="table table-hover align-middle">
-            <thead className="table-light">
+      <h3 className='mb-3'>Productos</h3>
+
+      {loading ? (
+        <p>Cargando...</p>
+      ) : products.length === 0 ? (
+        <p>No hay productos</p>
+      ) : (
+        <div className='table-responsive'>
+          <table className='table table-striped align-middle'>
+            <thead>
               <tr>
-                <th>Imagen</th>
+                <th>ID</th>
                 <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Precio</th>
-                <th>Acciones</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Imagen</th>
+                <th className='text-end'>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {products.map(p => (
+              {products.map((p) => (
                 <tr key={p.id}>
-                  <td>
-                    <img src={p.imagenes?.[0] || '/placeholder.jpg'} alt={p.nombre_producto} style={{ width: '50px', height: '50px', objectFit: 'contain' }} className="rounded" />
+                  <td>{p.id}</td>
+                  <td>{p.nombre}</td>
+                  <td>${Number(p.precio).toLocaleString('es-CL')}</td>
+                  <td>{p.stock}</td>
+                  <td>{p.categoria_id}</td>
+                  <td style={{ maxWidth: 240 }}>
+                    <span className='text-truncate d-inline-block' style={{ maxWidth: 240 }}>
+                      {p.imagen_url || '-'}
+                    </span>
                   </td>
-                  <td>{p.nombre_producto}</td>
-                  <td><span className="badge bg-info text-dark">{p.nombre_categoria}</span></td>
-                  <td>${Number(p.precio_min).toLocaleString('es-CL')}</td>
-                  <td>
-                    <div className="btn-group btn-group-sm">
-                      <button onClick={() => handleEdit(p)} className="btn btn-outline-primary">Editar</button>
-                      <button onClick={() => handleDelete(p.id)} className="btn btn-outline-danger">Eliminar</button>
+                  <td className='text-end'>
+                    <div className='d-flex justify-content-end gap-2'>
+                      <button
+                        className='btn btn-sm btn-outline-dark'
+                        onClick={() => startEdit(p)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className='btn btn-sm btn-outline-danger'
+                        onClick={() => handleDelete(p.id)}
+                      >
+                        Eliminar
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -177,7 +320,7 @@ const CrearPublicacion = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      )}
     </div>
   )
 }

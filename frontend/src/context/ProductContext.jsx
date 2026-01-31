@@ -1,36 +1,42 @@
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 
-const ProductContext = createContext();
+const ProductContext = createContext()
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('http://localhost:5001/products');
-      if (!res.ok) throw new Error("Error al cargar productos");
+    setLoading(true)
 
-      const data = await res.json();
-      setProducts(data.products ?? []);
+    try {
+      const res = await fetch(`${API_URL}/products`)
+
+      if (!res.ok) {
+        throw new Error('Error al cargar productos')
+      }
+
+      const data = await res.json()
+      setProducts(data.products ?? data ?? [])
     } catch (e) {
-      console.error(e);
-      setProducts([]);
+      console.error(e)
+      setProducts([])
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    load();
-  }, [load]);
+    load()
+  }, [load])
 
   return (
     <ProductContext.Provider value={{ products, loading, refreshProducts: load }}>
       {children}
     </ProductContext.Provider>
-  );
-};
+  )
+}
 
-export const useProducts = () => useContext(ProductContext);
+export const useProducts = () => useContext(ProductContext)

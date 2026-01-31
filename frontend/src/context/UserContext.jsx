@@ -3,17 +3,17 @@ import { toast } from 'react-toastify'
 
 export const UserContext = createContext()
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 const UserProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'))
   const [email, setEmail] = useState(localStorage.getItem('email'))
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:5001/auth/login', {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       })
 
@@ -39,11 +39,9 @@ const UserProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await fetch('http://localhost:5001/auth/register', {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)
       })
 
