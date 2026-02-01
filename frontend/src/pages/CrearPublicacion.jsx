@@ -188,7 +188,6 @@ const CrearPublicacion = () => {
               placeholder='Nombre del producto'
             />
           </div>
-
           <div className='col-md-6'>
             <label className='form-label'>Precio *</label>
             <input
