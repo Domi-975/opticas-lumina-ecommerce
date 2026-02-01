@@ -32,3 +32,4 @@ Proyecto colaborativo de e-commerce para Ópticas Lumina. Full-stack con React (
 - Crea una branch: `git checkout -b feature/tu-tarea`
 - Commit y push: `git push origin feature/tu-tarea`
 - Abre un PR en GitHub.
+// test cambio crud
