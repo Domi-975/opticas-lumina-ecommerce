@@ -132,7 +132,7 @@ const CrearPublicacion = () => {
             </div>
           </div>
           <div className="d-flex gap-2 mt-3">
-            <button type='submit' disabled={isDisabled} className={`btn ${editingId ? 'btn-warning' : 'btn-primary'} flex-grow-1`}>
+            <button type='submit' disabled={isDisabled} className={`btn ${editingId ? 'btn-warning' : 'btn-dark'} flex-grow-1`}>
               {editingId ? 'Actualizar Producto' : 'Publicar Producto'}
             </button>
             {editingId && (
