@@ -18,7 +18,7 @@ import NotFound from './components/NotFound'
 import Nosotros from "./pages/Nosotros/Nosotros"
 import Tienda from './pages/Tienda'
 import Pagos from './pages/Pagos/Pagos'
-import Contacto from './pages/Contacto'
+import Contacto from "./pages/Contacto/Contacto"
 import CrearPublicacion from './pages/CrearPublicacion'
 
 export default function App () {
