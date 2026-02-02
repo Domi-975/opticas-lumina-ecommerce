@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 function formatCLP(n) {
@@ -6,6 +8,44 @@ function formatCLP(n) {
 
 export default function Cart() {
   const { items, subtotal, increase, decrease, removeItem, clear } = useCart();
+  const navigate = useNavigate();
+  const [isPaying, setIsPaying] = useState(false);
+
+  const handlePay = async () => {
+    if (!items || items.length === 0) return;
+
+    setIsPaying(true);
+
+    // Simula “procesando pago”
+    await new Promise((r) => setTimeout(r, 900));
+
+    const itemsCount = items.reduce((acc, it) => acc + (it.qty || 1), 0);
+
+    const order = {
+      orderId: `LM-${Date.now().toString().slice(-8)}`,
+      total: subtotal,
+      itemsCount,
+      createdAt: new Date().toISOString(),
+      // opcional: guardar ítems para mostrar resumen
+      items: items.map((it) => ({
+        id: it.id,
+        name: it.name,
+        price: it.price,
+        qty: it.qty,
+        image: it.image,
+      })),
+    };
+
+    sessionStorage.setItem("lastOrder", JSON.stringify(order));
+
+    // Limpia el carrito
+    clear();
+
+    setIsPaying(false);
+
+    // Ir a la página de éxito
+    navigate("/checkout/success");
+  };
 
   return (
     <div className="container py-4">
@@ -35,7 +75,7 @@ export default function Cart() {
                         height: 72,
                         objectFit: "contain",
                         borderRadius: 12,
-                        backgroundColor: "#f5f5f5"
+                        backgroundColor: "#f5f5f5",
                       }}
                     />
 
@@ -88,10 +128,17 @@ export default function Cart() {
                   <span className="text-muted">Calculado en checkout</span>
                 </div>
 
-                <button className="btn btn-dark w-100">Ir a pagar</button>
+                <button
+                  type="button"
+                  className="btn btn-dark w-100"
+                  onClick={handlePay}
+                  disabled={isPaying || items.length === 0}
+                >
+                  {isPaying ? "Procesando..." : "Ir a pagar"}
+                </button>
 
                 <div className="text-muted small mt-2">
-                  (Luego conectamos checkout / pago real)
+                  (Pago simulado: muestra “Pago exitoso”)
                 </div>
               </div>
             </div>
