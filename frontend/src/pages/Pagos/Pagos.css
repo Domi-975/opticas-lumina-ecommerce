@@ -1,0 +1,139 @@
+.pagosPage {
+  background: #ffffff;
+}
+
+.pagosContainer {
+  max-width: 1100px;
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+.pagosHeader {
+  margin-bottom: 28px;
+}
+
+.pagosTitle {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.pagosSubtitle {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #5c636a;
+  max-width: 780px;
+}
+
+.pagosGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+  margin-bottom: 26px;
+}
+
+@media (max-width: 900px) {
+  .pagosGrid {
+    grid-template-columns: 1fr;
+  }
+  .pagosTitle {
+    font-size: 36px;
+  }
+}
+
+.pagoCard {
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+}
+
+.pagoCard__top {
+  display: grid;
+  gap: 8px;
+}
+
+.pagoCard__iconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #e9ecef;
+  display: grid;
+  place-items: center;
+  background: #f8f9fa;
+}
+
+.pagoIcon {
+  width: 34px;
+  height: 34px;
+  fill: #111;
+}
+
+.pagoIcon__accent {
+  fill: none;
+  stroke: #111;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pagoCard__title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.pagoCard__desc {
+  margin: 0;
+  color: #5c636a;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.pagoCard__list {
+  margin: 14px 0 0;
+  padding-left: 18px;
+  color: #343a40;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.pagoCard__list li {
+  margin-bottom: 6px;
+}
+
+.pagosInfo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .pagosInfo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pagosInfo__box {
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 16px;
+  background: #fff;
+}
+
+.pagosInfo__box h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+
+.pagosInfo__box p {
+  margin: 0;
+  color: #5c636a;
+  font-size: 14px;
+  line-height: 1.7;
+}
