@@ -1,10 +1,13 @@
 import { NavLink } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
+import { useCart } from '../context/CartContext'
 import './Home/Home.css'
 
 export default function Navbar () {
   const { token, logout, email } = useContext(UserContext)
+  const { count } = useCart()
+
   const linkClass = ({ isActive }) =>
     `nav-link${isActive ? ' lumina-pill-active' : ''}`
 
@@ -55,6 +58,7 @@ export default function Navbar () {
                 Contacto
               </NavLink>
             </li>
+
             {token && email === 'admin@lumina.com' && (
               <li className='nav-item'>
                 <NavLink to='/publicar-producto' className={linkClass}>
@@ -79,12 +83,22 @@ export default function Navbar () {
                 Login
               </NavLink>
             )}
+
+            {/* Carrito con contador */}
             <NavLink
               to='/carrito'
-              className='text-dark text-decoration-none'
+              className='text-dark text-decoration-none position-relative'
               aria-label='Carrito'
             >
               🛒
+              {count > 0 && (
+                <span
+                  className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark'
+                  style={{ fontSize: 12 }}
+                >
+                  {count}
+                </span>
+              )}
             </NavLink>
           </div>
         </div>

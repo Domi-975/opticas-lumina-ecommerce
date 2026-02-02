@@ -15,7 +15,7 @@ import Cart from './pages/Cart/Cart'
 import Navbar from './components/Navbar'
 import { UserContext } from './context/UserContext'
 import NotFound from './components/NotFound'
-import Nosotros from './pages/Nosotros'
+import Nosotros from "./pages/Nosotros/Nosotros"
 import Tienda from './pages/Tienda'
 import Pagos from './pages/Pagos'
 import Contacto from './pages/Contacto'
