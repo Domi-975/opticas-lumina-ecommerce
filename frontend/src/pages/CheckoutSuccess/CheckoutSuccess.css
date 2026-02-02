@@ -1,0 +1,128 @@
+.successPage {
+  background: #ffffff;
+}
+
+.successContainer {
+  max-width: 900px;
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+.successCard {
+  border: 1px solid #e9ecef;
+  border-radius: 18px;
+  padding: 22px;
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+}
+
+.successBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.successTitle {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin: 0 0 10px;
+}
+
+.successText {
+  margin: 0 0 18px;
+  color: #5c636a;
+  line-height: 1.7;
+}
+
+.successGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .successGrid { grid-template-columns: 1fr; }
+  .successTitle { font-size: 28px; }
+}
+
+.successItem {
+  border: 1px solid #e9ecef;
+  border-radius: 14px;
+  padding: 14px;
+  background: #fcfcfd;
+}
+
+.successLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #6c757d;
+  margin-bottom: 6px;
+}
+
+.successValue {
+  font-size: 14px;
+  font-weight: 900;
+  color: #111;
+}
+
+.successNote {
+  margin-top: 16px;
+  border: 1px dashed #e9ecef;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fff;
+  color: #343a40;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.successActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.successBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.successBtn:hover { opacity: 0.92; color: #fff; }
+
+.successBtnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  background: #fff;
+  color: #111;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.successBtnGhost:hover { background: #f8f9fa; color: #111; }

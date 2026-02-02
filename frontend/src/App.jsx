@@ -15,11 +15,13 @@ import Cart from './pages/Cart/Cart'
 import Navbar from './components/Navbar'
 import { UserContext } from './context/UserContext'
 import NotFound from './components/NotFound'
-import Nosotros from "./pages/Nosotros/Nosotros"
+import Nosotros from './pages/Nosotros/Nosotros'
 import Tienda from './pages/Tienda'
 import Pagos from './pages/Pagos/Pagos'
-import Contacto from "./pages/Contacto/Contacto"
+import Contacto from './pages/Contacto/Contacto'
 import CrearPublicacion from './pages/CrearPublicacion'
+import CheckoutSuccess from './pages/CheckoutSuccess/CheckoutSuccess'
+
 
 export default function App () {
   const { token, email } = useContext(UserContext)
@@ -39,6 +41,7 @@ export default function App () {
         <Route path='/publicar-producto' element={token && email === 'admin@lumina.com' ? <CrearPublicacion /> : <Navigate to='/' />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={token ? <Navigate to='/' /> : <Register />} />
+        <Route path='/checkout/success' element={<CheckoutSuccess />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <ToastContainer position="bottom-right" theme="colored" />
