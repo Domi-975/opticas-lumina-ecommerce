@@ -1,0 +1,207 @@
+.contactoPage {
+  background: #ffffff;
+}
+
+.contactoContainer {
+  max-width: 1100px;
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+.contactoHeader {
+  margin-bottom: 28px;
+}
+
+.contactoTitle {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.contactoSubtitle {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #5c636a;
+  max-width: 780px;
+}
+
+.contactoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}
+
+@media (max-width: 900px) {
+  .contactoGrid {
+    grid-template-columns: 1fr;
+  }
+  .contactoTitle {
+    font-size: 36px;
+  }
+}
+
+.contactoCard {
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 18px;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+}
+
+.contactoCard--wide {
+  grid-column: 1 / -1;
+}
+
+.contactoCard__iconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #e9ecef;
+  display: grid;
+  place-items: center;
+  background: #f8f9fa;
+  margin-bottom: 10px;
+}
+
+.contactoIcon {
+  width: 34px;
+  height: 34px;
+  fill: #111;
+}
+
+.contactoIcon__accent {
+  fill: none;
+  stroke: #111;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contactoCard__title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+
+.contactoCard__desc {
+  margin: 0;
+  color: #5c636a;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.contactoCard__info {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.contactoBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #e9ecef;
+  background: #f8f9fa;
+  font-size: 12px;
+  color: #343a40;
+  font-weight: 700;
+}
+
+.contactoValue {
+  font-weight: 800;
+  color: #111;
+  font-size: 14px;
+}
+
+.contactoBtn {
+  margin-top: 14px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.contactoBtn:hover {
+  opacity: 0.92;
+  color: #fff;
+}
+
+.contactoBtn--ghost {
+  background: #fff;
+  color: #111;
+}
+
+.contactoBtn--ghost:hover {
+  background: #f8f9fa;
+  color: #111;
+}
+
+.contactoCard__wideHeader {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.sucursalesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .sucursalesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sucursalItem {
+  border: 1px solid #e9ecef;
+  border-radius: 14px;
+  padding: 14px;
+  background: #fff;
+}
+
+.sucursalTitle {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.sucursalText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #343a40;
+}
+
+.sucursalText--muted {
+  color: #6c757d;
+  margin-top: 6px;
+}
+
+.contactoNote {
+  margin-top: 14px;
+  border: 1px dashed #e9ecef;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fcfcfd;
+  color: #343a40;
+  font-size: 13px;
+  line-height: 1.6;
+}
