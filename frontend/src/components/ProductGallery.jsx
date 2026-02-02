@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import HomeFooter from "./Home/HomeFooter";
 import "./Home/Home.css";
 
@@ -19,8 +21,25 @@ export default function ProductGallery() {
 
   const { products, loading } = useProducts();
   const { addItem } = useCart();
+  const { token } = useContext(UserContext);
 
   const handleAddToCart = (p) => {
+    if (!token) {
+      Swal.fire({
+        title: "¡Atención!",
+        html: `
+          <p>Debes iniciar sesión para agregar productos al carrito.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            <a href="/login" class="swal2-confirm swal2-styled" style="text-decoration: none; display: block;">Ir al Login</a>
+            <a href="/register" class="swal2-confirm swal2-styled" style="text-decoration: none; display: block; background-color: #fff; color: #212529; border: 1px solid #212529;">Ir a Registrarse</a>
+          </div>
+        `,
+        showConfirmButton: false,
+        icon: "warning"
+      });
+      return;
+    }
+
     const name = p.nombre_producto ?? "Producto";
     const price = Number(p.precio_min ?? 0);
 

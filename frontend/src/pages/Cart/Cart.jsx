@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { UserContext } from "../../context/UserContext";
+import Swal from "sweetalert2";
 
 function formatCLP(n) {
   return n.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
@@ -8,11 +10,28 @@ function formatCLP(n) {
 
 export default function Cart() {
   const { items, subtotal, increase, decrease, removeItem, clear } = useCart();
+  const { token } = useContext(UserContext);
   const navigate = useNavigate();
   const [isPaying, setIsPaying] = useState(false);
 
   const handlePay = async () => {
     if (!items || items.length === 0) return;
+
+    if (!token) {
+      Swal.fire({
+        title: "¡Atención!",
+        html: `
+          <p>Debes iniciar sesión para realizar la compra.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            <a href="/login" class="swal2-confirm swal2-styled" style="text-decoration: none; display: block;">Ir al Login</a>
+            <a href="/register" class="swal2-confirm swal2-styled" style="text-decoration: none; display: block; background-color: #fff; color: #212529; border: 1px solid #212529;">Ir a Registrarse</a>
+          </div>
+        `,
+        showConfirmButton: false,
+        icon: "warning"
+      });
+      return;
+    }
 
     setIsPaying(true);
 
