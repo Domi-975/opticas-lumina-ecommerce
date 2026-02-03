@@ -1,132 +1,133 @@
-import { useState, useEffect, useContext } from 'react' // Importa hooks básicos de React
-import { toast } from 'react-toastify' // Importa librería para notificaciones visuales
-import { UserContext } from '../context/UserContext' // Importa contexto de usuario para autenticación
-import { useProducts } from '../context/ProductContext' // Importa hook personalizado para gestionar productos
-import '../pages/CrearPublicacion.css' // Importa estilos específicos para este componente
+import { useState, useEffect, useContext } from 'react'
+import { toast } from 'react-toastify'
+import { UserContext } from '../context/UserContext'
+import { useProducts } from '../context/ProductContext'
+import '../pages/CrearPublicacion.css'
 
-// Define el componente funcional CrearPublicacion
 const CrearPublicacion = () => {
-  const { token } = useContext(UserContext) // Obtiene el token de autenticación del contexto
-  const { products, refreshProducts } = useProducts() // Obtiene lista de productos y función para refrescarla
-  // Define estado para los datos del formulario
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
+  const { token } = useContext(UserContext)
+  const { products, refreshProducts } = useProducts()
   const [formData, setFormData] = useState({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
-  // Define estado para deshabilitar botón de envío (true por defecto)
   const [isDisabled, setIsDisabled] = useState(true)
-  // Define estado para saber si estamos editando un producto existente (guarda su ID)
   const [editingId, setEditingId] = useState(null)
 
-  // Manejador para cambios en los inputs del formulario
   const handleChange = (e) => {
-    const { name, value } = e.target // Extrae nombre y valor del input modificado
-    setFormData({ ...formData, [name]: value }) // Actualiza el estado manteniendo los otros campos
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
-  // Manejador para el envío del formulario (Crear o Editar)
   const handleSubmit = async (e) => {
-    e.preventDefault() // Previene recarga de la página
-    
-    // Validación básica del precio
-    if (formData.precio <= 0) {
+    e.preventDefault()
+
+    if (!token) {
+      toast.error('No estás autenticado. Inicia sesión como admin.')
+      return
+    }
+
+    const precioNum = Number(formData.precio)
+    if (!Number.isFinite(precioNum) || precioNum <= 0) {
       toast.error('El precio debe ser mayor a 0')
       return
     }
-    
-    try {
-      // Determina URL según si es edición o creación
-      const url = editingId 
-        ? `http://localhost:5001/products/${editingId}`
-        : 'http://localhost:5001/products';
-      
-      // Determina método HTTP (PUT para editar, POST para crear)
-      const method = editingId ? 'PUT' : 'POST';
 
-      // Realiza la petición al backend
+    try {
+      const url = editingId
+        ? `${API_URL}/products/${editingId}`
+        : `${API_URL}/products`
+
+      const method = editingId ? 'PUT' : 'POST'
+
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Incluye token de autenticación
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData) // Envía datos del formulario como JSON
-      });
+        body: JSON.stringify({ ...formData, precio: precioNum })
+      })
+
+      const raw = await response.text()
+      let data = null
+      try {
+        data = raw ? JSON.parse(raw) : null
+      } catch {
+        data = { message: raw }
+      }
 
       if (response.ok) {
-        // Éxito: notifica, limpia formulario, resetea modo edición y actualiza lista
-        toast.success(editingId ? '¡Producto actualizado!' : '¡Producto publicado!');
-        setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' });
-        setEditingId(null);
-        refreshProducts();
+        toast.success(editingId ? '¡Producto actualizado!' : '¡Producto publicado!')
+        setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
+        setEditingId(null)
+        refreshProducts()
       } else {
-        // Error del servidor: obtiene mensaje y notifica
-        const data = await response.json();
-        toast.error(data.message || 'Error en la operación');
+        toast.error(data?.message || `Error en la operación (HTTP ${response.status})`)
       }
     } catch (error) {
-      // Error de red o ejecución
-      console.error(error);
-      toast.error('Error de conexión');
+      console.error(error)
+      toast.error('Error de conexión (API caída o CORS)')
     }
   }
 
-  // Prepara el formulario para editar un producto existente
   const handleEdit = (product) => {
-    setEditingId(product.id); // Guarda ID del producto a editar
-    // Rellena el formulario con los datos actuales del producto
+    setEditingId(product.id)
     setFormData({
       titulo: product.nombre_producto,
       descripcion: product.descripcion,
       precio: product.precio_min,
       categoria: product.nombre_categoria,
-      imagen: product.imagenes?.[0] || '' // Toma la primera imagen o cadena vacía
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Sube la pantalla al formulario
+      imagen: product.imagenes?.[0] || ''
+    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  // Elimina un producto
   const handleDelete = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return; // Confirmación
+    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return
+
+    if (!token) {
+      toast.error('No estás autenticado. Inicia sesión como admin.')
+      return
+    }
 
     try {
-      const response = await fetch(`http://localhost:5001/products/${id}`, {
+      const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}` // Requiere autenticación
+          Authorization: `Bearer ${token}`
         }
-      });
+      })
 
       if (response.ok) {
-        toast.success('Producto eliminado');
-        refreshProducts(); // Actualiza la lista tras eliminar
+        toast.success('Producto eliminado')
+        refreshProducts()
       } else {
-        toast.error('Error al eliminar');
+        const raw = await response.text()
+        toast.error(raw || `Error al eliminar (HTTP ${response.status})`)
       }
     } catch (error) {
-      toast.error('Error de conexión');
+      console.error(error)
+      toast.error('Error de conexión (API caída o CORS)')
     }
   }
 
-  // Cancela la edición y limpia el formulario
   const cancelEdit = () => {
-    setEditingId(null);
-    setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' });
+    setEditingId(null)
+    setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
   }
 
-  // Efecto secundario: valida si hay campos vacíos para deshabilitar el botón
   useEffect(() => {
-    // Comprueba si algún valor en formData es una cadena vacía
     const camposVacios = Object.values(formData).some(value => value === '')
-    setIsDisabled(camposVacios) // Actualiza estado de bloqueo
-  }, [formData]) // Se ejecuta cada vez que cambia formData
+    setIsDisabled(camposVacios)
+  }, [formData])
 
   return (
     <div className='crear-publicacion-container flex-column py-5'>
       <div className='crear-publicacion mb-5'>
-        {/* Título dinámico según modo edición/creación */}
         <h2>{editingId ? 'Editar publicación' : 'Crear nueva publicación'}</h2>
 
         <form onSubmit={handleSubmit}>
           <div className='formcontainer'>
-            {/* Campos del formulario */}
             <div className='form'>
               <label> URL de la imagen: </label>
               <input type='text' name='imagen' placeholder='URL de la imagen' value={formData.imagen} onChange={handleChange} required />
@@ -153,7 +154,7 @@ const CrearPublicacion = () => {
               </select>
             </div>
           </div>
-          {/* Botones de acción */}
+
           <div className="d-flex gap-2 mt-3">
             <button type='submit' disabled={isDisabled} className={`btn ${editingId ? 'btn-warning' : 'btn-dark'} flex-grow-1`}>
               {editingId ? 'Actualizar Producto' : 'Publicar Producto'}
@@ -167,7 +168,6 @@ const CrearPublicacion = () => {
         </form>
       </div>
 
-      {/* Tabla de gestión de productos existentes */}
       <div className="container mt-4">
         <h3 className="mb-4">Gestión de Productos</h3>
         <div className="table-responsive bg-white p-3 rounded shadow-sm">
@@ -182,7 +182,6 @@ const CrearPublicacion = () => {
               </tr>
             </thead>
             <tbody>
-              {/* Itera sobre los productos para crear filas de tabla */}
               {products.map(p => (
                 <tr key={p.id}>
                   <td>

@@ -2,21 +2,17 @@ import { createContext, useContext, useEffect, useState, useCallback } from 'rea
 
 const ProductContext = createContext()
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-
 export const ProductProvider = ({ children }) => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
     setLoading(true)
-
     try {
       const res = await fetch(`${API_URL}/products`)
-
-      if (!res.ok) {
-        throw new Error('Error al cargar productos')
-      }
+      if (!res.ok) throw new Error(`Error al cargar productos (HTTP ${res.status})`)
 
       const data = await res.json()
       setProducts(data.products ?? data ?? [])
@@ -26,7 +22,7 @@ export const ProductProvider = ({ children }) => {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [API_URL])
 
   useEffect(() => {
     load()
