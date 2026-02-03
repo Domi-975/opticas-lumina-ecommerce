@@ -5,6 +5,8 @@ import { useProducts } from '../context/ProductContext'
 import '../pages/CrearPublicacion.css'
 
 const CrearPublicacion = () => {
+  const API_URL = import.meta.env.VITE_API_URL
+
   const { token } = useContext(UserContext)
   const { products, refreshProducts } = useProducts()
   const [formData, setFormData] = useState({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
@@ -18,79 +20,110 @@ const CrearPublicacion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (formData.precio <= 0) {
+
+    if (!API_URL) {
+      toast.error('Falta configurar VITE_API_URL (Netlify / .env)')
+      return
+    }
+
+    if (!token) {
+      toast.error('No estás autenticado. Inicia sesión como admin.')
+      return
+    }
+
+    const precioNum = Number(formData.precio)
+    if (!Number.isFinite(precioNum) || precioNum <= 0) {
       toast.error('El precio debe ser mayor a 0')
       return
     }
-    
+
     try {
-      const url = editingId 
-        ? `http://localhost:5001/products/${editingId}`
-        : 'http://localhost:5001/products';
-      
-      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId
+        ? `${API_URL}/products/${editingId}`
+        : `${API_URL}/products`
+
+      const method = editingId ? 'PUT' : 'POST'
 
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
-      });
+        body: JSON.stringify({ ...formData, precio: precioNum })
+      })
+
+      const raw = await response.text()
+      let data = null
+      try {
+        data = raw ? JSON.parse(raw) : null
+      } catch {
+        data = { message: raw }
+      }
 
       if (response.ok) {
-        toast.success(editingId ? '¡Producto actualizado!' : '¡Producto publicado!');
-        setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' });
-        setEditingId(null);
-        refreshProducts();
+        toast.success(editingId ? '¡Producto actualizado!' : '¡Producto publicado!')
+        setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
+        setEditingId(null)
+        refreshProducts()
       } else {
-        const data = await response.json();
-        toast.error(data.message || 'Error en la operación');
+        toast.error(data?.message || `Error en la operación (HTTP ${response.status})`)
       }
     } catch (error) {
-      console.error(error);
-      toast.error('Error de conexión');
+      console.error(error)
+      toast.error('Error de conexión (API caída o CORS)')
     }
   }
 
   const handleEdit = (product) => {
-    setEditingId(product.id);
+    setEditingId(product.id)
     setFormData({
       titulo: product.nombre_producto,
       descripcion: product.descripcion,
       precio: product.precio_min,
       categoria: product.nombre_categoria,
       imagen: product.imagenes?.[0] || ''
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleDelete = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return;
+    if (!window.confirm('¿Estás seguro de eliminar este producto?')) return
+
+    if (!API_URL) {
+      toast.error('Falta configurar VITE_API_URL (Netlify / .env)')
+      return
+    }
+
+    if (!token) {
+      toast.error('No estás autenticado. Inicia sesión como admin.')
+      return
+    }
 
     try {
-      const response = await fetch(`http://localhost:5001/products/${id}`, {
+      const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
-      });
+      })
 
       if (response.ok) {
-        toast.success('Producto eliminado');
-        refreshProducts();
+        toast.success('Producto eliminado')
+        refreshProducts()
       } else {
-        toast.error('Error al eliminar');
+        const raw = await response.text()
+        toast.error(raw || `Error al eliminar (HTTP ${response.status})`)
       }
     } catch (error) {
-      toast.error('Error de conexión');
+      console.error(error)
+      toast.error('Error de conexión (API caída o CORS)')
     }
   }
 
   const cancelEdit = () => {
-    setEditingId(null);
-    setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' });
+    setEditingId(null)
+    setFormData({ titulo: '', descripcion: '', precio: '', categoria: '', imagen: '' })
   }
 
   useEffect(() => {
