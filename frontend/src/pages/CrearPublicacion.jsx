@@ -5,7 +5,7 @@ import { useProducts } from '../context/ProductContext'
 import '../pages/CrearPublicacion.css'
 
 const CrearPublicacion = () => {
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001'
 
   const { token } = useContext(UserContext)
   const { products, refreshProducts } = useProducts()
