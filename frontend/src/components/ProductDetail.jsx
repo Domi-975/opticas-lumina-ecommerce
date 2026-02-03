@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { products as fallbackProducts } from "../data/products";
 
 const formatCLP = (n) =>
@@ -16,6 +18,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const { products, loading } = useProducts();
   const { addItem } = useCart();
+  const { token } = useContext(UserContext);
 
   if (loading) return <div className="container py-5">Cargando...</div>;
 
@@ -46,6 +49,32 @@ export default function ProductDetail() {
       : (product.image || "/placeholder.svg");
 
   const category = product.nombre_categoria || product.category || "";
+
+  const handleAddToCart = () => {
+    if (!token) {
+      Swal.fire({
+        title: "¡Atención!",
+        html: `
+          <p>Debes iniciar sesión para agregar productos al carrito.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            <a href="/login" class="swal2-confirm swal2-styled" style="text-decoration: none; display: block;">Ir al Login</a>
+            <a href="/register" class="swal2-confirm swal2-styled" style="text-decoration: none; display: block; background-color: #fff; color: #212529; border: 1px solid #212529;">Ir a Registrarse</a>
+          </div>
+        `,
+        showConfirmButton: false,
+        icon: "warning"
+      });
+      return;
+    }
+
+    addItem({
+      id: product.id,
+      name,
+      price: Number(price),
+      image,
+    });
+    toast.success(`${name} agregado al carrito`);
+  };
 
   return (
     <div className="container py-5">
@@ -90,15 +119,7 @@ export default function ProductDetail() {
           <div className="d-grid gap-2">
             <button
               className="btn btn-dark btn-lg py-3 fw-bold"
-              onClick={() => {
-                addItem({
-                  id: product.id,
-                  name,
-                  price: Number(price),
-                  image,
-                });
-                toast.success(`${name} agregado al carrito`);
-              }}
+              onClick={handleAddToCart}
             >
               Agregar al carrito 🛒
             </button>

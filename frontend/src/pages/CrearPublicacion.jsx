@@ -21,11 +21,6 @@ const CrearPublicacion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!API_URL) {
-      toast.error('Falta configurar VITE_API_URL (Netlify / .env)')
-      return
-    }
-
     if (!token) {
       toast.error('No estás autenticado. Inicia sesión como admin.')
       return
@@ -89,11 +84,6 @@ const CrearPublicacion = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('¿Estás seguro de eliminar este producto?')) return
-
-    if (!API_URL) {
-      toast.error('Falta configurar VITE_API_URL (Netlify / .env)')
-      return
-    }
 
     if (!token) {
       toast.error('No estás autenticado. Inicia sesión como admin.')
@@ -164,6 +154,7 @@ const CrearPublicacion = () => {
               </select>
             </div>
           </div>
+
           <div className="d-flex gap-2 mt-3">
             <button type='submit' disabled={isDisabled} className={`btn ${editingId ? 'btn-warning' : 'btn-dark'} flex-grow-1`}>
               {editingId ? 'Actualizar Producto' : 'Publicar Producto'}
